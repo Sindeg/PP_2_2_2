@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import web.dao.CarDao;
 import web.models.Car;
+import web.service.CarService;
 
 import java.util.List;
 import java.util.Objects;
@@ -16,17 +17,20 @@ import java.util.Objects;
 @RequestMapping("/cars")
 public class CarController {
 
-    private final CarDao carDao;
+    private final CarService carService;
 
     @Autowired
-    public CarController(CarDao carDao) {
-        this.carDao = carDao;
+    public CarController(CarService carService) {
+        this.carService = carService;
     }
 
 
     @GetMapping
     public String show(@RequestParam(value = "count", required = false) Integer count, Model model) {
-        List<Car> cars = Objects.nonNull(count) ? carDao.getCars(count) : carDao.getCars();
+        List<Car> cars = Objects.nonNull(count)
+                ? carService.getCars(count)
+                : carService.getCars();
+
         model.addAttribute("cars", cars);
         return "car/show";
     }
