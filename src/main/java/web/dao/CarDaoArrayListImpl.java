@@ -10,7 +10,7 @@ import java.util.List;
 @Component
 public class CarDaoArrayListImpl implements CarDao {
 
-    private List<Car> cars = new ArrayList<>();
+    private final List<Car> cars = new ArrayList<>();
 
     {
         cars.add(new Car("Bmw", "X5", 2005));
@@ -18,26 +18,21 @@ public class CarDaoArrayListImpl implements CarDao {
         cars.add(new Car("Audi", "TT", 2012));
         cars.add(new Car("Honda", "Civic", 2004));
         cars.add(new Car("Hyndai", "sonata", 2009));
+        cars.add(new Car("Audi", "TT", 2013));
+        cars.add(new Car("Ford", "Focus", 2011));
     }
 
+    @Override
     public List<Car> getCars(int count) {
         if (count < 1) {
             return Collections.emptyList();
         }
 
-        if (count > cars.size()) {
+        if (count > cars.size()  || count >= 5) {
             return cars;
         }
 
         return cars.subList(0, count);
     }
 
-    public List<Car> getCars() {
-        return getCars(cars.size());
-    }
-
-    public static void main(String[] args) {
-        CarDaoArrayListImpl carDao = new CarDaoArrayListImpl();
-        System.out.println(carDao.getCars(10));
-    }
 }
